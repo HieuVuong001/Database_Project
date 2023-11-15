@@ -41,3 +41,10 @@ source PATH_TO_FILE
 ```
 
 where PATH_TO_FILE is the path to `create_database.sql`
+
+
+To see how to use the main script:
+
+```
+python3 main.py --help
+```
