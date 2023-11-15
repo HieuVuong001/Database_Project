@@ -1,7 +1,7 @@
 create table member(
     username varchar(45) NOT NULL,
     membership_type varchar(45) NOT NULL,
-    pw varchar(45) NOT NULL, 
+    pw varbinary(1024) NOT NULL, 
     date_joined DATETIME NOT NULL, 
     PRIMARY KEY(username)); 
 

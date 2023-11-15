@@ -1,5 +1,14 @@
 # Database_Project
 
+Useful documentations:
+
+[Click](https://click.palletsprojects.com/en/8.1.x/quickstart/)
+
+[MySQLConnector](https://dev.mysql.com/doc/connector-python/en/connector-python-introduction.html)
+
+[BCrypt](https://github.com/pyca/bcrypt/)
+
+
 # Usage
 
 1. Set up your virtual environment (optional).
@@ -22,3 +31,13 @@ PW="123456"
 ```
 python3 db.py
 ```
+
+To create the database:
+
+1. In `mysql`, do:
+
+```
+source PATH_TO_FILE
+```
+
+where PATH_TO_FILE is the path to `create_database.sql`
