@@ -1,15 +1,30 @@
 import click
 from db import get_db
 import bcrypt
+from dotenv import load_dotenv
+import os
 
 # open connectino to database
 conn = get_db()
 
+ADMIN = 1
+REGULAR = 0
+FAILURE = -1
+
 def create_admin():
     """Create admin.
 
+    NOTE: Only root user can create admin.
+
     First create a new member, then move the member into admin position.
     """
+    # Check root status
+    root_pw = click.prompt("Enter root password: ", hide_input=True)
+
+    if root_pw != os.getenv("ROOT"):
+        click.echo("You're not root. Good luck next time!")
+        return FAILURE
+
     # create as regular member first
     username = create_member()
     cursor = conn.cursor()
@@ -36,7 +51,7 @@ def create_member() -> str:
     else:
         membership_type = "regular"
     
-    password = click.prompt("Enter your password: ", str)
+    password = click.prompt("Enter your password: ", str, hide_input=True)
     
     cursor = conn.cursor()
 
@@ -52,8 +67,52 @@ def create_member() -> str:
 
     return username
 
+def login() -> int:
+    """Log the user into the system.
 
-if __name__ == "__main__":
+    Returns:
+        A flag corresponding to the status of the authentication.
+        1 for admin users.
+        0 for regular user.
+        -1 for failed login.
+    """
+    username = click.prompt("Enter your username: ", str)
+    password = click.prompt("Enter your password: ", str, hide_input=True)
+
+    cursor = conn.cursor()
+
+    # Get all member password and username
+    get_members = f"SELECT username, pw FROM member"
+
+    cursor.execute(get_members)
+
+    for stored_username, stored_pw in cursor:
+        if username == stored_username:
+            if bcrypt.checkpw(bytes(password, 'utf-8'), bytes(stored_pw)):
+                # successfully login
+
+                # determine if the current user is admin or regular member
+                get_admins = f"SELECT username FROM admin"
+
+                cursor.execute(get_admins)
+
+                for stored_admin in cursor:
+                    if username == stored_admin:
+                        # found admin
+                        click.echo(f"Welcome back, admin {username}")
+
+                        return ADMIN
+
+                click.echo(f"Welcome back, {username}")
+
+                return REGULAR
+
+    # cannot find member in the database
+    click.echo("Wrong username or password. Try again.")
+
+    return FAILURE
+
+def app():
     try:
         prompts = '''What are you trying to do? \n\
             [1] Create an admin.
@@ -67,10 +126,19 @@ if __name__ == "__main__":
         if c == '1':
             click.echo("Creating an admin.")
             create_admin()
+        elif c == '2':
+            click.echo("Logging you in.")
+            login()
         else:
-            click.echo("Coming soon!")
+            app()
+        
         # close the connection
         conn.close()
     except click.Abort:
         click.echo("\nUser exited.")
         exit
+                           
+
+# main application loop
+if __name__ == "__main__":
+    app()
