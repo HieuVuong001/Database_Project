@@ -10,6 +10,7 @@ conn = get_db()
 ADMIN = 1
 REGULAR = 0
 FAILURE = -1
+EXIT = -2
 
 def create_admin():
     """Create admin.
@@ -35,6 +36,8 @@ def create_admin():
     cursor.execute(insert_admin)
     conn.commit()
     conn.close()
+
+    return ADMIN
 
 def create_member() -> str:
     """Create a regular member.
@@ -112,33 +115,48 @@ def login() -> int:
 
     return FAILURE
 
+def admin_view():
+    pass
+
+def regular_view():
+    pass
+
 def app():
     try:
-        prompts = '''What are you trying to do? \n\
-            [1] Create an admin.
-            [2] Login.
-            '''
-        
-        click.echo(prompts, nl=False)
+        while True:
+            prompts = '''What are you trying to do? \n\
+                [1] Create an admin.
+                [2] Login.
+                [3] Exit.
+                '''
+            
+            click.echo(prompts, nl=False)
 
-        c = click.getchar()
+            c = click.getchar()
 
-        if c == '1':
-            click.echo("Creating an admin.")
-            create_admin()
-        elif c == '2':
-            click.echo("Logging you in.")
-            login()
-        else:
-            app()
-        
-        # close the connection
+            if c == '1':
+                click.echo("Creating an admin.")
+                create_admin()
+            elif c == '2':
+                click.echo("Logging you in.")
+                status = login()
+
+                if status == REGULAR:
+                    click.echo("You can do regular thing")
+                elif status == ADMIN:
+                    click.echo("You can do admin thing")
+
+                
+            elif c =='3':
+                click.echo("Bye!")
+                break
+            else:
+                return app()
+    finally:
         conn.close()
-    except click.Abort:
-        click.echo("\nUser exited.")
-        exit
-                           
+    
 
 # main application loop
 if __name__ == "__main__":
     app()
+        
