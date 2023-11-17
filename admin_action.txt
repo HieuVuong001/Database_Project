@@ -1,0 +1,8 @@
+An admin can do everything that the normal user can do, and (tentatively): [Hieu]
+- Host contest
+- Modify contest
+- Delete a contest
+
+Aside from the above, an admin can also do these administrative actions:
+- Change name of an organization.
+- Delete anything (we can choose what we want to support due to limited time).

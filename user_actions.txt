@@ -1,0 +1,26 @@
+A regular member can do the following things (tenatively):
+
+Keyboard related: 
+- Create a new keyboard
+- Edit parts of the keyboard
+- Delete a keyboard from their portfolio.
+
+Portfolio related:
+- View their portfolio (list of all keyboards that they have built).
+- Remove keyboard from portfolio.
+- Modify their portfolio.
+
+Workshop related:
+- Join a workshop
+- Host a workshop
+- Modify a workshop (if they're the host).
+
+Contest related:
+- Join a contest
+
+Posts related: [Hieu]
+- Like a post
+- Comment on a post
+- Modify a post (if they're the poster).
+- Make a post
+
