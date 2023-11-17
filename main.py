@@ -5,32 +5,72 @@ import bcrypt
 # open connectino to database
 conn = get_db()
 
-@click.command()
-@click.argument('username')
-@click.argument('membership_type')
-@click.argument('password')
-def create_member(username, membership_type, password):
-    # Create a cursor
+def create_admin():
+    """Create admin.
+
+    First create a new member, then move the member into admin position.
+    """
+    # create as regular member first
+    username = create_member()
     cursor = conn.cursor()
 
-    # hash password
-    # must cast string to bytes first
-    hashed_pw = bcrypt.hashpw(bytes(password, 'utf-8'), bcrypt.gensalt())
+    insert_admin = f"INSERT INTO admin VALUES ('{username}')"
 
-    # need username, membership_type, pw, and date_joined
-    # NOW is a function of SQL to generate current date time
-    query = f"INSERT INTO member VALUES (%s, %s, %s, NOW())"
-    query_data = (username, membership_type, hashed_pw)
-    
     # Execute the query
-    cursor.execute(query, query_data)
-
-    # Commit the change to the DB
+    cursor.execute(insert_admin)
     conn.commit()
+    conn.close()
+
+def create_member() -> str:
+    """Create a regular member.
+
+    Prompt users for input then create according member.
+    """
+    # get user input
+    username = click.prompt("Enter your username: ", str)
+
+    click.echo("Are you an exlclusive member? [y]=exclusive, [n]=regular")
+    c = click.getchar()
+    if c == "y":
+        membership_type = "exclusive"
+    else:
+        membership_type = "regular"
+    
+    password = click.prompt("Enter your password: ", str)
+    
+    cursor = conn.cursor()
+
+    # first, hash the password for member before storing
+    hashed_pw = bcrypt.hashpw(bytes(password, 'utf-8'), bcrypt.gensalt())
+    insert_member = f"INSERT INTO member VALUES (%s, %s, %s, NOW())"
+    member_data = (username, membership_type, hashed_pw)
+
+    # execute and commit
+    cursor.execute(insert_member, member_data)
+    cursor.close()
+    conn.commit()
+
+    return username
 
 
 if __name__ == "__main__":
-    create_member()
+    try:
+        prompts = '''What are you trying to do? \n\
+            [1] Create an admin.
+            [2] Login.
+            '''
+        
+        click.echo(prompts, nl=False)
 
-    # close the connection
-    conn.close()
+        c = click.getchar()
+
+        if c == '1':
+            click.echo("Creating an admin.")
+            create_admin()
+        else:
+            click.echo("Coming soon!")
+        # close the connection
+        conn.close()
+    except click.Abort:
+        click.echo("\nUser exited.")
+        exit
