@@ -5,6 +5,12 @@ create table member(
     date_joined DATETIME NOT NULL, 
     PRIMARY KEY(username)); 
 
+create table admin(
+    username varchar(45) NOT NULL,
+    PRIMARY KEY(username),
+    FOREIGN KEY(username) REFERENCES member(username),
+);
+
 create table portfolio(
     username varchar(45) NOT NULL, 
     portfolio_name varchar(45) NOT NULL, 
