@@ -104,18 +104,75 @@ def login() -> int:
     for stored_username, stored_pw in combs:
         if (username == stored_username) and checkpw(bytes(password, 'utf-8'), bytes(stored_pw)):
             if username in admin_names:
+                cursor.close()
                 return ADMIN
             
+            cursor.close()
             return REGULAR
         
     # if all else fail, this combination of password and username doesn't exist
     click.echo("Wrong username or password. Try again.")
+    cursor.close()
     return FAILURE
 
 
-def admin_view():
+def view_contest():
+    query = "SELECT * FROM contest"
+
+    cursor = conn.cursor()
+
+    cursor.execute(query)
+
+    contests = cursor.fetchall()
+
+    click.echo("Here's a list of contest so far.")
+    for contest in contests:
+        print(contest)
+
+
+def host_contest():
+    contest_name = click.prompt("Enter contest name: ", str)
+    capacity = click.prompt("Enter contest capacity: ", int)
+    rules = click.prompt("Enter contest rules: ", str)
+
+    insert_contest = "INSERT INTO contest \
+        (contest_name, capacity, requirements, date_created) \
+        VALUES (%s, %s, %s, NOW())"
+    contest_data = (contest_name, capacity, rules)
+
+    cursor = conn.cursor()
+
+    cursor.execute(insert_contest, contest_data)
+    cursor.close()
+
+    conn.commit()
+
+
+def modify_contest():
     pass
 
+
+def admin_actions():
+    prompt = '''
+    Here's what you can do:
+    [1] View all contests
+    [2] Host a new contest
+    [3] Modify a contest
+    [4] Exit
+    '''
+
+    click.echo(prompt)
+
+    c = click.getchar()
+
+    if c == '1':
+       view_contest()
+    elif c == '2':
+        host_contest()
+    elif c == '3':
+        modify_contest()
+    elif c == '4':
+        return FAILURE
 
 def regular_view():
     pass
@@ -145,6 +202,13 @@ def app():
                 click.echo("You can do regular thing")
             elif status == ADMIN:
                 click.echo("You can do admin thing")
+
+                action_status = admin_actions()
+
+                while action_status != FAILURE:
+                    action_status = admin_actions()
+
+                break
         elif c == '3':
             click.echo("Bye!")
             break
