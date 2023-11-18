@@ -8,8 +8,7 @@ create table member(
 create table admin(
     username varchar(45) NOT NULL,
     PRIMARY KEY(username),
-    FOREIGN KEY(username) REFERENCES member(username),
-);
+    FOREIGN KEY(username) REFERENCES member(username));
 
 create table portfolio(
     username varchar(45) NOT NULL, 

@@ -1,8 +1,7 @@
+from bcrypt import hashpw, checkpw, gensalt
 import click
-from db import get_db
-import bcrypt
-from dotenv import load_dotenv
 import os
+from db import get_db
 
 # open connectino to database
 conn = get_db()
@@ -11,6 +10,7 @@ ADMIN = 1
 REGULAR = 0
 FAILURE = -1
 EXIT = -2
+
 
 def create_admin():
     """Create admin.
@@ -35,9 +35,9 @@ def create_admin():
     # Execute the query
     cursor.execute(insert_admin)
     conn.commit()
-    conn.close()
 
     return ADMIN
+
 
 def create_member() -> str:
     """Create a regular member.
@@ -59,8 +59,8 @@ def create_member() -> str:
     cursor = conn.cursor()
 
     # first, hash the password for member before storing
-    hashed_pw = bcrypt.hashpw(bytes(password, 'utf-8'), bcrypt.gensalt())
-    insert_member = f"INSERT INTO member VALUES (%s, %s, %s, NOW())"
+    hashed_pw = hashpw(bytes(password, 'utf-8'), gensalt())
+    insert_member = "INSERT INTO member VALUES (%s, %s, %s, NOW())"
     member_data = (username, membership_type, hashed_pw)
 
     # execute and commit
@@ -69,6 +69,7 @@ def create_member() -> str:
     conn.commit()
 
     return username
+
 
 def login() -> int:
     """Log the user into the system.
@@ -85,78 +86,74 @@ def login() -> int:
     cursor = conn.cursor()
 
     # Get all member password and username
-    get_members = f"SELECT username, pw FROM member"
 
+    get_admins = "SELECT username FROM admin"
+
+    cursor.execute(get_admins)
+
+    names = cursor.fetchall()
+
+    admin_names = set([name[0] for name in names])
+
+    get_members = "SELECT username, pw FROM member"
+    
     cursor.execute(get_members)
 
-    for stored_username, stored_pw in cursor:
-        if username == stored_username:
-            if bcrypt.checkpw(bytes(password, 'utf-8'), bytes(stored_pw)):
-                # successfully login
+    combs = cursor.fetchall()
 
-                # determine if the current user is admin or regular member
-                get_admins = f"SELECT username FROM admin"
-
-                cursor.execute(get_admins)
-
-                for stored_admin in cursor:
-                    if username == stored_admin:
-                        # found admin
-                        click.echo(f"Welcome back, admin {username}")
-
-                        return ADMIN
-
-                click.echo(f"Welcome back, {username}")
-
-                return REGULAR
-
-    # cannot find member in the database
+    for stored_username, stored_pw in combs:
+        if (username == stored_username) and checkpw(bytes(password, 'utf-8'), bytes(stored_pw)):
+            if username in admin_names:
+                return ADMIN
+            
+            return REGULAR
+        
+    # if all else fail, this combination of password and username doesn't exist
     click.echo("Wrong username or password. Try again.")
-
     return FAILURE
+
 
 def admin_view():
     pass
 
+
 def regular_view():
     pass
 
+
 def app():
-    try:
-        while True:
-            prompts = '''What are you trying to do? \n\
-                [1] Create an admin.
-                [2] Login.
-                [3] Exit.
-                '''
-            
-            click.echo(prompts, nl=False)
+    while True:
+        prompts = '''
+        What are you trying to do? \n\
+        [1] Create an admin.
+        [2] Login.
+        [3] Exit.
+        '''
+        
+        click.echo(prompts, nl=False)
 
-            c = click.getchar()
+        c = click.getchar()
 
-            if c == '1':
-                click.echo("Creating an admin.")
-                create_admin()
-            elif c == '2':
-                click.echo("Logging you in.")
-                status = login()
+        if c == '1':
+            click.echo("Creating an admin.")
+            create_admin()
+        elif c == '2':
+            click.echo("Logging you in.")
+            status = login()
 
-                if status == REGULAR:
-                    click.echo("You can do regular thing")
-                elif status == ADMIN:
-                    click.echo("You can do admin thing")
-
-                
-            elif c =='3':
-                click.echo("Bye!")
-                break
-            else:
-                return app()
-    finally:
-        conn.close()
+            if status == REGULAR:
+                click.echo("You can do regular thing")
+            elif status == ADMIN:
+                click.echo("You can do admin thing")
+        elif c == '3':
+            click.echo("Bye!")
+            break
+        else:
+            return app()
     
 
 # main application loop
 if __name__ == "__main__":
     app()
-        
+    
+    conn.close()
