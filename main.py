@@ -2,6 +2,7 @@ from bcrypt import hashpw, checkpw, gensalt
 import click
 import os
 from db import get_db
+import mysql
 
 # open connectino to database
 conn = get_db()
@@ -10,6 +11,7 @@ ADMIN = 1
 REGULAR = 0
 FAILURE = -1
 EXIT = -2
+SUCCESS = 0
 
 
 def create_admin():
@@ -126,8 +128,14 @@ def view_contest():
     contests = cursor.fetchall()
 
     click.echo("Here's a list of contest so far.")
+
+    if not contests:
+        return FAILURE
+    
     for contest in contests:
         print(contest)
+
+    return SUCCESS
 
 
 def host_contest():
@@ -153,9 +161,11 @@ def modify_contest():
     click.echo("Which contest are you trying to modify?")
 
     # Get all contest
-    view_contest()
+    if view_contest() == FAILURE:
+        click.echo("No contests to modify")
+        return FAILURE
 
-    edit_id = click.prompt("Enter id of contest you want to edit: ")
+    edit_id = click.prompt("Enter id of contest you want to edit: ", int)
     contest_name = click.prompt("Enter contest name: ", str)
     capacity = click.prompt("Enter contest capacity: ", int)
     rules = click.prompt("Enter contest rules: ", str)
@@ -174,6 +184,29 @@ def modify_contest():
 
     conn.commit()
 
+    return SUCCESS
+
+def delete_contest():
+    if view_contest() == FAILURE:
+        click.echo("No contest to delete.")
+        return FAILURE
+    
+    delete_id = click.prompt("Enter id of contest you want to edit: ", int)
+
+    delete_query = f"DELETE FROM contest WHERE cid={delete_id}"
+    
+    cursor = conn.cursor()
+    try:
+        cursor.execute(delete_query)
+    
+        cursor.close()
+
+        conn.commit()
+
+        return SUCCESS
+    except mysql.connector.Error as err:
+        click.echo(f"Error. Execution halt: {err}")
+
 
 
 def admin_actions():
@@ -182,7 +215,8 @@ def admin_actions():
     [1] View all contests
     [2] Host a new contest
     [3] Modify a contest
-    [4] Exit
+    [4] Delete a contest
+    [5] Exit
     '''
 
     click.echo(prompt)
@@ -190,12 +224,14 @@ def admin_actions():
     c = click.getchar()
 
     if c == '1':
-       view_contest()
+        view_contest()
     elif c == '2':
         host_contest()
     elif c == '3':
         modify_contest()
     elif c == '4':
+        delete_contest()
+    else:
         return FAILURE
 
 def regular_view():
