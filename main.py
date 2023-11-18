@@ -149,7 +149,31 @@ def host_contest():
 
 
 def modify_contest():
-    pass
+    # Figure out which contest to modify
+    click.echo("Which contest are you trying to modify?")
+
+    # Get all contest
+    view_contest()
+
+    edit_id = click.prompt("Enter id of contest you want to edit: ")
+    contest_name = click.prompt("Enter contest name: ", str)
+    capacity = click.prompt("Enter contest capacity: ", int)
+    rules = click.prompt("Enter contest rules: ", str)
+
+    edit_contest = "UPDATE contest SET \
+        contest_name=%s, capacity=%s, requirements=%s\
+        WHERE cid=%s"
+
+    edit_data = (contest_name, capacity, rules, edit_id)
+
+    cursor = conn.cursor()
+
+    cursor.execute(edit_contest, edit_data)
+
+    cursor.close()
+
+    conn.commit()
+
 
 
 def admin_actions():
