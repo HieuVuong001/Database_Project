@@ -126,7 +126,7 @@ def login() -> int:
     logger.info("Login. Getting user input")
     username = click.prompt("Enter your username: ", str)
     password = click.prompt("Enter your password: ", str, hide_input=True)
-    
+
     # Username for this session of the application.
     global USERNAME
 
@@ -134,14 +134,14 @@ def login() -> int:
         cursor = conn.cursor()
         # Get all member password and username
         get_admins = "SELECT username FROM admin"
-        
+
         logger.info("Get all admin names")
         cursor.execute(get_admins)
 
         names = cursor.fetchall()
         admin_names = set([name[0] for name in names])
         get_members = "SELECT username, pw FROM member"
-        
+
         logger.info("Get all members username and password")
         cursor.execute(get_members)
 
@@ -159,14 +159,14 @@ def login() -> int:
                     USERNAME = username
                     cursor.close()
                     return ADMIN
-                
+
                 cursor.close()
                 logger.info(f"{username} is a regular member.")
                 logger.info("Regular user logged in.")
 
                 USERNAME = username
                 return REGULAR
-        
+
         click.echo("Wrong pw/username combination.")
         logger.error("Pw/Username doesn't exist. Execution halt.")
         cursor.close()
@@ -283,16 +283,16 @@ def modify_contest():
 
 def delete_contest():
     logger.info("Delete contest - initiated")
-
     logger.info("Delete contest - get all possible contest")
+
     if view_contest() == FAILURE:
         logger.error("No contest to delete")
         click.echo("No contest to delete.")
         logger.info("Delete contest - failed")
         return FAILURE
-    
+
     logger.info("Getting user input")
-    delete_id = click.prompt("Enter id of contest you want to edit: ", int)
+    delete_id = click.prompt("Enter id of contest you want to delete: ", int)
     delete_query = f"DELETE FROM contest WHERE cid={delete_id}"
     try:
         logger.info(f"Delete contest with cid={delete_id}")
