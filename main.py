@@ -126,6 +126,9 @@ def login() -> int:
     logger.info("Login. Getting user input")
     username = click.prompt("Enter your username: ", str)
     password = click.prompt("Enter your password: ", str, hide_input=True)
+    
+    # Username for this session of the application.
+    global USERNAME
 
     try:
         cursor = conn.cursor()
@@ -152,12 +155,16 @@ def login() -> int:
                 if username in admin_names:
                     logger.info(f"{username} is an admin")
                     logger.info("Admin logged in.")
+
+                    USERNAME = username
                     cursor.close()
                     return ADMIN
                 
                 cursor.close()
                 logger.info(f"{username} is a regular member.")
                 logger.info("Regular user logged in.")
+
+                USERNAME = username
                 return REGULAR
         
         click.echo("Wrong pw/username combination.")
@@ -174,19 +181,18 @@ def login() -> int:
 def view_contest():
     logger.info("View contest.")
     query = "SELECT * FROM contest"
-    
+
     logger.info("Get all contest in database.")
     cursor = conn.cursor()
     cursor.execute(query)
     contests = cursor.fetchall()
-
 
     if not contests:
         logger.error("Database doesn't have any contest.")
         logger.error("View contest - failure")
         click.echo("No contest found!")
         return FAILURE
-    
+
     logger.info("Printing out contest information.")
     click.echo("Here's a list of contest.")
     for contest in contests:
@@ -202,6 +208,7 @@ def host_contest():
     contest_name = click.prompt("Enter contest name: ", str)
     capacity = click.prompt("Enter contest capacity: ", int)
     rules = click.prompt("Enter contest rules: ", str)
+    rewards = click.prompt("Enter contest rewards: ", str)
 
     insert_contest = "INSERT INTO contest \
         (contest_name, capacity, requirements, date_created) \
@@ -213,10 +220,19 @@ def host_contest():
 
         logger.info("Insert contest into database")
         cursor.execute(insert_contest, contest_data)
+
+        logger.info("Get id of last inserted contest")
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        last_id = cursor.fetchone()[0]
+
+        contest_host = "INSERT INTO contest_host VALUES (%s, %s, %s)"
+        contest_host_data = (USERNAME, last_id, rewards)
+
+        logger.info("Insert into contest_host the host information.")
+        cursor.execute(contest_host, contest_host_data)
+
         cursor.close()
-
         conn.commit()
-
         logger.info("host contest - succeeded")
 
         return SUCCESS
@@ -224,6 +240,7 @@ def host_contest():
         click.echo(f"Execution halt {err}")
         logger.error(f"Execution halt: {err}")
         return FAILURE
+
 
 def modify_contest():
     logger.info("Modify contest - initiated")
