@@ -21,9 +21,9 @@ pip install -r requirements.txt
 3. Create a `.env` file with your credentials (remember to match environment variables with the variables used in the python code). For example:
 
 ```
-HOST="HOSTNAME"
-USERNAME="John"
-PW="123456"
+HOST=HOSTNAME
+USERNAME=John
+PW=123456
 ```
 
 4. Run `db.py`.
@@ -43,8 +43,8 @@ source PATH_TO_FILE
 where PATH_TO_FILE is the path to `create_database.sql`
 
 
-To see how to use the main script:
+To use the application:
 
 ```
-python3 main.py --help
+python3 main.py
 ```
