@@ -1,0 +1,127 @@
+2023-11-21 14:58:36,165 - INFO - Initiated application
+2023-11-21 14:58:39,525 - INFO - Login. Getting user input
+2023-11-21 14:58:46,387 - INFO - Get all admin names
+2023-11-21 14:58:46,401 - INFO - Get all members username and password
+2023-11-21 14:58:46,402 - INFO - Searching correct pw/username combination for admin
+2023-11-21 14:58:46,402 - ERROR - Pw/Username doesn't exist. Execution halt.
+2023-11-21 14:58:51,329 - INFO - Getting root password from user
+2023-11-21 14:58:52,398 - INFO - Getting root password from environment variables.
+2023-11-21 14:58:52,398 - INFO - Creating new member
+2023-11-21 14:58:52,398 - INFO - Getting user input
+2023-11-21 14:58:57,785 - INFO - Get cursor
+2023-11-21 14:58:57,786 - INFO - Hash user password
+2023-11-21 14:58:58,069 - INFO - Insert member into database
+2023-11-21 14:58:58,079 - INFO - Member created.
+2023-11-21 14:58:58,080 - INFO - Move member to admin role.
+2023-11-21 14:58:58,082 - INFO - Admin created
+2023-11-21 14:58:59,391 - INFO - Login. Getting user input
+2023-11-21 14:59:01,352 - INFO - Get all admin names
+2023-11-21 14:59:01,355 - INFO - Get all members username and password
+2023-11-21 14:59:01,355 - INFO - Searching correct pw/username combination for admin
+2023-11-21 14:59:01,636 - INFO - Authenticates successfully.                             Checking if member is an admin.
+2023-11-21 14:59:01,636 - INFO - admin is an admin
+2023-11-21 14:59:01,636 - INFO - Admin logged in.
+2023-11-21 14:59:04,728 - INFO - View contest.
+2023-11-21 14:59:04,728 - INFO - Get all contest in database.
+2023-11-21 14:59:04,756 - ERROR - Database doesn't have any contest.
+2023-11-21 14:59:04,756 - ERROR - View contest - failure
+2023-11-21 14:59:06,363 - INFO - host contest - ininiated
+2023-11-21 14:59:06,364 - INFO - Getting user input
+2023-11-21 14:59:24,222 - INFO - Insert contest into database
+2023-11-21 14:59:24,224 - INFO - Get id of last inserted contest
+2023-11-21 14:59:24,226 - INFO - Insert into contest_host the host information.
+2023-11-21 14:59:24,228 - INFO - host contest - succeeded
+2023-11-21 14:59:25,375 - INFO - View contest.
+2023-11-21 14:59:25,375 - INFO - Get all contest in database.
+2023-11-21 14:59:25,376 - INFO - Printing out contest information.
+2023-11-21 14:59:25,376 - INFO - View contest - success
+2023-11-21 14:59:27,226 - INFO - Close database connection.
+2023-11-27 20:54:49,604 - INFO - Initiated application
+2023-11-27 20:54:51,905 - INFO - Getting root password from user
+2023-11-27 20:54:52,967 - INFO - Getting root password from environment variables.
+2023-11-27 20:54:52,967 - INFO - Creating new member
+2023-11-27 20:54:52,967 - INFO - Getting user input
+2023-11-27 20:54:57,839 - INFO - Get cursor
+2023-11-27 20:54:57,839 - INFO - Hash user password
+2023-11-27 20:54:58,120 - INFO - Insert member into database
+2023-11-27 20:54:58,129 - INFO - Member created.
+2023-11-27 20:54:58,129 - INFO - Move member to admin role.
+2023-11-27 20:54:58,132 - INFO - Admin created
+2023-11-27 20:54:59,457 - INFO - Login. Getting user input
+2023-11-27 20:55:01,394 - INFO - Get all admin names
+2023-11-27 20:55:01,395 - INFO - Get all members username and password
+2023-11-27 20:55:01,396 - INFO - Searching correct pw/username combination for admin
+2023-11-27 20:55:01,676 - INFO - Authenticates successfully.                             Checking if member is an admin.
+2023-11-27 20:55:01,676 - INFO - admin is an admin
+2023-11-27 20:55:01,676 - INFO - Admin logged in.
+2023-11-27 20:55:03,502 - INFO - View contest.
+2023-11-27 20:55:03,503 - INFO - Get all contest in database.
+2023-11-27 20:55:03,505 - ERROR - Database doesn't have any contest.
+2023-11-27 20:55:03,506 - ERROR - View contest - failure
+2023-11-27 20:55:04,900 - INFO - host contest - ininiated
+2023-11-27 20:55:04,901 - INFO - Getting user input
+2023-11-27 20:55:16,348 - INFO - Insert contest into database
+2023-11-27 20:55:16,350 - INFO - Get id of last inserted contest
+2023-11-27 20:55:16,351 - INFO - Insert into contest_host the host information.
+2023-11-27 20:55:16,354 - INFO - host contest - succeeded
+2023-11-27 20:55:18,097 - INFO - View contest.
+2023-11-27 20:55:18,098 - INFO - Get all contest in database.
+2023-11-27 20:55:18,099 - INFO - Printing out contest information.
+2023-11-27 20:55:18,099 - INFO - View contest - success
+2023-11-27 20:55:19,955 - INFO - host contest - ininiated
+2023-11-27 20:55:19,955 - INFO - Getting user input
+2023-11-27 20:55:48,389 - INFO - Insert contest into database
+2023-11-27 20:55:48,390 - INFO - Get id of last inserted contest
+2023-11-27 20:55:48,391 - INFO - Insert into contest_host the host information.
+2023-11-27 20:55:48,391 - INFO - host contest - succeeded
+2023-11-27 20:55:49,969 - INFO - View contest.
+2023-11-27 20:55:49,970 - INFO - Get all contest in database.
+2023-11-27 20:55:49,971 - INFO - Printing out contest information.
+2023-11-27 20:55:49,971 - INFO - View contest - success
+2023-11-27 20:55:54,596 - INFO - Modify contest - initiated
+2023-11-27 20:55:54,597 - INFO - Modify contest - get all contest.
+2023-11-27 20:55:54,597 - INFO - View contest.
+2023-11-27 20:55:54,597 - INFO - Get all contest in database.
+2023-11-27 20:55:54,598 - INFO - Printing out contest information.
+2023-11-27 20:55:54,599 - INFO - View contest - success
+2023-11-27 20:55:54,599 - INFO - Getting user input
+2023-11-27 20:56:11,347 - INFO - Editing contest with cid=2
+2023-11-27 20:56:11,352 - INFO - Modify contest - succeeded
+2023-11-27 20:56:12,412 - INFO - View contest.
+2023-11-27 20:56:12,412 - INFO - Get all contest in database.
+2023-11-27 20:56:12,413 - INFO - Printing out contest information.
+2023-11-27 20:56:12,414 - INFO - View contest - success
+2023-11-27 20:56:17,849 - INFO - Delete contest - initiated
+2023-11-27 20:56:17,849 - INFO - Delete contest - get all possible contest
+2023-11-27 20:56:17,849 - INFO - View contest.
+2023-11-27 20:56:17,850 - INFO - Get all contest in database.
+2023-11-27 20:56:17,851 - INFO - Printing out contest information.
+2023-11-27 20:56:17,851 - INFO - View contest - success
+2023-11-27 20:56:17,851 - INFO - Getting user input
+2023-11-27 20:56:19,430 - INFO - Delete contest with cid=10
+2023-11-27 20:56:19,432 - INFO - Delete contest - succeeded
+2023-11-27 20:56:21,845 - INFO - Delete contest - initiated
+2023-11-27 20:56:21,846 - INFO - Delete contest - get all possible contest
+2023-11-27 20:56:21,846 - INFO - View contest.
+2023-11-27 20:56:21,846 - INFO - Get all contest in database.
+2023-11-27 20:56:21,847 - INFO - Printing out contest information.
+2023-11-27 20:56:21,847 - INFO - View contest - success
+2023-11-27 20:56:21,847 - INFO - Getting user input
+2023-11-27 20:56:24,055 - INFO - Delete contest with cid=2
+2023-11-27 20:56:24,058 - INFO - Delete contest - succeeded
+2023-11-27 20:56:26,951 - INFO - View contest.
+2023-11-27 20:56:26,951 - INFO - Get all contest in database.
+2023-11-27 20:56:26,951 - INFO - Printing out contest information.
+2023-11-27 20:56:26,952 - INFO - View contest - success
+2023-11-27 20:56:31,084 - INFO - Close database connection.
+2023-11-27 21:06:55,259 - INFO - Initiated application
+2023-11-27 21:06:58,351 - INFO - Close database connection.
+2023-11-27 21:21:23,208 - INFO - Initiated application
+2023-11-27 21:21:24,466 - INFO - Login. Getting user input
+2023-11-27 21:21:26,235 - INFO - Get all admin names
+2023-11-27 21:21:26,236 - INFO - Get all members username and password
+2023-11-27 21:21:26,238 - INFO - Searching correct pw/username combination for test
+2023-11-27 21:21:26,516 - INFO - Authenticates successfully.                             Checking if member is an admin.
+2023-11-27 21:21:26,516 - INFO - test is an admin
+2023-11-27 21:21:26,516 - INFO - Admin logged in.
+2023-11-27 21:21:27,740 - INFO - Close database connection.
