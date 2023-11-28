@@ -1,3 +1,4 @@
+# SJSU CMPE 138 FALL 2023 TEAM3
 from bcrypt import hashpw, checkpw, gensalt
 import click
 import os

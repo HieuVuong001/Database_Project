@@ -1,3 +1,4 @@
+# SJSU CMPE 138 FALL 2023 TEAM3
 import mysql.connector
 from dotenv import load_dotenv
 import os

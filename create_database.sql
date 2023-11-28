@@ -1,3 +1,4 @@
+-- SJSU CMPE 138 FALL 2023 TEAM3
 create table member(
     username varchar(45) NOT NULL,
     membership_type varchar(45) NOT NULL,
