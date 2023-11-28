@@ -48,8 +48,13 @@ create table builder(
     specialty varchar(90),
     builder_type varchar(45) NOT NULL,
     interest varchar(45),
+    PRIMARY KEY(username)
+);
+
+create table user_builds(
+	username varchar(45) NOT NULL,
     kb_name varchar(45) NOT NULL,
-    PRIMARY KEY(username, kb_name),
+	PRIMARY KEY(username),
     FOREIGN KEY(kb_name) REFERENCES keyboard(kb_name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
