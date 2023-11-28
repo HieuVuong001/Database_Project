@@ -52,9 +52,9 @@ create table builder(
 );
 
 create table user_builds(
-	username varchar(45) NOT NULL,
+    username varchar(45) NOT NULL,
     kb_name varchar(45) NOT NULL,
-	PRIMARY KEY(username),
+    PRIMARY KEY(username),
     FOREIGN KEY(kb_name) REFERENCES keyboard(kb_name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
